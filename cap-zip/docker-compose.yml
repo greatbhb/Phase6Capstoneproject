@@ -1,0 +1,31 @@
+version: "3.0"
+services:
+  web-app:
+    image: aadhaar-front
+    ports:
+      - "4200:80"
+    networks:
+      - employee-mysql
+    depends_on:
+      - employee-jdbc
+  employee-jdbc:
+    image: aadhaar-back
+    #build: .
+    ports:
+      - "9696:9696"
+    networks:
+      - employee-mysql
+    depends_on:
+      - mysqldb
+  mysqldb:
+    image: mysql:8
+    networks:
+      - employee-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=capstone 
+
+networks:
+  employee-mysql:
